@@ -1,0 +1,35 @@
+module EtudiantApp {
+
+    struct Etudiant {
+        long    id;
+        string  numEtu;
+        string  nom;
+        string  prenom;
+        string  email;
+    };
+
+    struct Note {
+        string  numEtu;
+        string  matiere;
+        double  valeur;
+    };
+
+    typedef sequence<Etudiant> EtudiantList;
+    typedef sequence<Note>     NoteList;
+
+    // C++ implemente cette interface (serveur)
+    interface EtudiantService {
+        EtudiantList getAll();
+        Etudiant     getByNumEtu(in string numEtu);
+        long         addEtudiant(in Etudiant etu);
+        long         count();
+    };
+
+    // Java implemente cette interface (serveur)
+    interface NoteService {
+        void     addNote(in Note n);
+        NoteList getAllNotes();
+        NoteList getNotesByEtu(in string numEtu);
+        double   getMoyenne(in string numEtu);
+    };
+};

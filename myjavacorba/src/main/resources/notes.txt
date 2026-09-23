@@ -1,0 +1,5 @@
+etu003948;Mathématiques;15.5
+etu003948;Physique;12.0
+etu003948;Informatique;17.25
+etu003949;Mathématiques;14.0
+etu003949;Physique;11.5
