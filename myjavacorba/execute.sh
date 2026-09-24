@@ -1,1 +1,1 @@
-mvn exec:java -Dexec.mainClass="myjavacorba.App" -Dexec.args="$@"
+mvn clean compile && mvn exec:exec

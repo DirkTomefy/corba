@@ -35,7 +35,7 @@
     </dependencyManagement>
 
     <dependencies>
-
+        <!-- Tests Unitaires -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -52,12 +52,36 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- ORB JacORB & OMG API -->
         <dependency>
             <groupId>org.jacorb</groupId>
             <artifactId>jacorb</artifactId>
             <version>${jacorb.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jacorb</groupId>
+            <artifactId>jacorb-omgapi</artifactId>
+            <version>${jacorb.version}</version>
+        </dependency>
 
+        <!--
+            javax.rmi.CORBA.* (Stub, Tie, ValueHandler, ...) faisait partie du
+            module java.corba, retire du JDK depuis Java 11 (JEP 320). JacORB
+            en depend encore en interne (org.jacorb.orb.Reference notamment)
+            sans le fournir dans son propre jar : il faut le reimporter.
+        -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.rmi</groupId>
+            <artifactId>jboss-rmi-api_1.0_spec</artifactId>
+            <version>1.0.6.Final</version>
+        </dependency>
+
+        <!-- Implémentation de logging nécessaire pour JacORB -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -115,6 +139,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Compilation IDL -> Java via JacORB -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>idlj-maven-plugin</artifactId>
@@ -140,6 +165,58 @@
                             <emitSkeletons>true</emitSkeletons>
                         </source>
                     </sources>
+                </configuration>
+            </plugin>
+
+            <!-- Inclusion automatique des sources IDL générées dans le classpath de compilation -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/idl</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Exécution de l'application (myjavacorba.App) dans une JVM forkée.
+
+                On utilise le goal "exec:exec" (et non "exec:java") car JacORB
+                charge certaines de ses classes internes (ex: org.jacorb.orb.Reference)
+                via un mécanisme qui ne fonctionne pas de façon fiable avec le
+                classloader isolé du goal "exec:java". Forker un vrai process java
+                avec un -classpath explicite évite ce problème de classloading.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>myjavacorba.App</argument>
+                        <!--
+                            JacORB ignore -ORBInitialHost/-ORBInitialPort pour
+                            resoudre "NameService" (contrairement a l'ancien ORB
+                            Sun/Oracle). Il faut le lui dire explicitement via
+                            -ORBInitRef, en deux arguments separes.
+                        -->
+                        <argument>-ORBInitRef</argument>
+                        <argument>NameService=corbaloc::localhost:2809/NameService</argument>
+                    </arguments>
                 </configuration>
             </plugin>
 
