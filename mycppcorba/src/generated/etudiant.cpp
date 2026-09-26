@@ -388,15 +388,101 @@ _0RL_lcfn_e4b34d1afc78e95b_50000000(omniCallDescriptor* cd, omniServant* svnt)
 
 
 //
-// Code for EtudiantApp::EtudiantService::count
+// Code for EtudiantApp::EtudiantService::filtrer
 
 // Proxy call descriptor class. Mangled signature:
-//  _clong
+//  _cEtudiantApp_mEtudiantList_i_cstring_i_cboolean
 class _0RL_cd_e4b34d1afc78e95b_60000000
   : public omniCallDescriptor
 {
 public:
   inline _0RL_cd_e4b34d1afc78e95b_60000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  ::CORBA::String_var arg_0_;
+  const char* arg_0;
+  ::CORBA::Boolean arg_1;
+  EtudiantApp::EtudiantList_var result;
+};
+
+void _0RL_cd_e4b34d1afc78e95b_60000000::marshalArguments(cdrStream& _n)
+{
+  _n.marshalString(arg_0,0);
+  _n.marshalBoolean(arg_1);
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_60000000::unmarshalArguments(cdrStream& _n)
+{
+  arg_0_ = _n.unmarshalString(0);
+  arg_0 = arg_0_.in();
+  arg_1 = _n.unmarshalBoolean();
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_60000000::marshalReturnedValues(cdrStream& _n)
+{
+  (const EtudiantApp::EtudiantList&) result >>= _n;
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_60000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  result = new EtudiantApp::EtudiantList;
+  (EtudiantApp::EtudiantList&)result <<= _n;
+
+}
+
+const char* const _0RL_cd_e4b34d1afc78e95b_60000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_e4b34d1afc78e95b_70000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_e4b34d1afc78e95b_60000000* tcd = (_0RL_cd_e4b34d1afc78e95b_60000000*)cd;
+  EtudiantApp::_impl_EtudiantService* impl = (EtudiantApp::_impl_EtudiantService*) svnt->_ptrToInterface(EtudiantApp::EtudiantService::_PD_repoId);
+  tcd->result = impl->filtrer(tcd->arg_0, tcd->arg_1);
+
+
+}
+
+EtudiantApp::EtudiantList* EtudiantApp::_objref_EtudiantService::filtrer(const char* colonne, ::CORBA::Boolean isasc)
+{
+  _0RL_cd_e4b34d1afc78e95b_60000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_70000000, "filtrer", 8);
+  _call_desc.arg_0 = colonne;
+  _call_desc.arg_1 = isasc;
+
+  _invoke(_call_desc);
+  return _call_desc.result._retn();
+
+
+}
+
+
+//
+// Code for EtudiantApp::EtudiantService::count
+
+// Proxy call descriptor class. Mangled signature:
+//  _clong
+class _0RL_cd_e4b34d1afc78e95b_80000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_e4b34d1afc78e95b_80000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
     : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
   {
     
@@ -412,27 +498,27 @@ public:
   ::CORBA::Long result;
 };
 
-void _0RL_cd_e4b34d1afc78e95b_60000000::marshalReturnedValues(cdrStream& _n)
+void _0RL_cd_e4b34d1afc78e95b_80000000::marshalReturnedValues(cdrStream& _n)
 {
   result >>= _n;
 
 }
 
-void _0RL_cd_e4b34d1afc78e95b_60000000::unmarshalReturnedValues(cdrStream& _n)
+void _0RL_cd_e4b34d1afc78e95b_80000000::unmarshalReturnedValues(cdrStream& _n)
 {
   (::CORBA::Long&)result <<= _n;
 
 }
 
-const char* const _0RL_cd_e4b34d1afc78e95b_60000000::_user_exns[] = {
+const char* const _0RL_cd_e4b34d1afc78e95b_80000000::_user_exns[] = {
   0
 };
 
 // Local call call-back function.
 static void
-_0RL_lcfn_e4b34d1afc78e95b_70000000(omniCallDescriptor* cd, omniServant* svnt)
+_0RL_lcfn_e4b34d1afc78e95b_90000000(omniCallDescriptor* cd, omniServant* svnt)
 {
-  _0RL_cd_e4b34d1afc78e95b_60000000* tcd = (_0RL_cd_e4b34d1afc78e95b_60000000*)cd;
+  _0RL_cd_e4b34d1afc78e95b_80000000* tcd = (_0RL_cd_e4b34d1afc78e95b_80000000*)cd;
   EtudiantApp::_impl_EtudiantService* impl = (EtudiantApp::_impl_EtudiantService*) svnt->_ptrToInterface(EtudiantApp::EtudiantService::_PD_repoId);
   tcd->result = impl->count();
 
@@ -441,7 +527,7 @@ _0RL_lcfn_e4b34d1afc78e95b_70000000(omniCallDescriptor* cd, omniServant* svnt)
 
 ::CORBA::Long EtudiantApp::_objref_EtudiantService::count()
 {
-  _0RL_cd_e4b34d1afc78e95b_60000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_70000000, "count", 6);
+  _0RL_cd_e4b34d1afc78e95b_80000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_90000000, "count", 6);
 
 
   _invoke(_call_desc);
@@ -503,9 +589,17 @@ EtudiantApp::_impl_EtudiantService::_dispatch(omniCallHandle& _handle)
     return 1;
   }
 
+  if (omni::strMatch(op, "filtrer")) {
+
+    _0RL_cd_e4b34d1afc78e95b_60000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_70000000, "filtrer", 8, 1);
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
   if (omni::strMatch(op, "count")) {
 
-    _0RL_cd_e4b34d1afc78e95b_60000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_70000000, "count", 6, 1);
+    _0RL_cd_e4b34d1afc78e95b_80000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_90000000, "count", 6, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;
@@ -647,11 +741,11 @@ EtudiantApp::_objref_NoteService::_ptrToObjRef(const char* id)
 
 // Proxy call descriptor class. Mangled signature:
 //  void_i_cEtudiantApp_mNote
-class _0RL_cd_e4b34d1afc78e95b_80000000
+class _0RL_cd_e4b34d1afc78e95b_a0000000
   : public omniCallDescriptor
 {
 public:
-  inline _0RL_cd_e4b34d1afc78e95b_80000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+  inline _0RL_cd_e4b34d1afc78e95b_a0000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
     : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
   {
     
@@ -668,13 +762,13 @@ public:
   const EtudiantApp::Note* arg_0;
 };
 
-void _0RL_cd_e4b34d1afc78e95b_80000000::marshalArguments(cdrStream& _n)
+void _0RL_cd_e4b34d1afc78e95b_a0000000::marshalArguments(cdrStream& _n)
 {
   (const EtudiantApp::Note&) *arg_0 >>= _n;
 
 }
 
-void _0RL_cd_e4b34d1afc78e95b_80000000::unmarshalArguments(cdrStream& _n)
+void _0RL_cd_e4b34d1afc78e95b_a0000000::unmarshalArguments(cdrStream& _n)
 {
   arg_0_ = new EtudiantApp::Note;
   (EtudiantApp::Note&)arg_0_ <<= _n;
@@ -682,15 +776,15 @@ void _0RL_cd_e4b34d1afc78e95b_80000000::unmarshalArguments(cdrStream& _n)
 
 }
 
-const char* const _0RL_cd_e4b34d1afc78e95b_80000000::_user_exns[] = {
+const char* const _0RL_cd_e4b34d1afc78e95b_a0000000::_user_exns[] = {
   0
 };
 
 // Local call call-back function.
 static void
-_0RL_lcfn_e4b34d1afc78e95b_90000000(omniCallDescriptor* cd, omniServant* svnt)
+_0RL_lcfn_e4b34d1afc78e95b_b0000000(omniCallDescriptor* cd, omniServant* svnt)
 {
-  _0RL_cd_e4b34d1afc78e95b_80000000* tcd = (_0RL_cd_e4b34d1afc78e95b_80000000*)cd;
+  _0RL_cd_e4b34d1afc78e95b_a0000000* tcd = (_0RL_cd_e4b34d1afc78e95b_a0000000*)cd;
   EtudiantApp::_impl_NoteService* impl = (EtudiantApp::_impl_NoteService*) svnt->_ptrToInterface(EtudiantApp::NoteService::_PD_repoId);
   impl->addNote(*tcd->arg_0);
 
@@ -699,7 +793,7 @@ _0RL_lcfn_e4b34d1afc78e95b_90000000(omniCallDescriptor* cd, omniServant* svnt)
 
 void EtudiantApp::_objref_NoteService::addNote(const ::EtudiantApp::Note& n)
 {
-  _0RL_cd_e4b34d1afc78e95b_80000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_90000000, "addNote", 8);
+  _0RL_cd_e4b34d1afc78e95b_a0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_b0000000, "addNote", 8);
   _call_desc.arg_0 = &(::EtudiantApp::Note&) n;
 
   _invoke(_call_desc);
@@ -714,71 +808,6 @@ void EtudiantApp::_objref_NoteService::addNote(const ::EtudiantApp::Note& n)
 
 // Proxy call descriptor class. Mangled signature:
 //  _cEtudiantApp_mNoteList
-class _0RL_cd_e4b34d1afc78e95b_a0000000
-  : public omniCallDescriptor
-{
-public:
-  inline _0RL_cd_e4b34d1afc78e95b_a0000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
-    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
-  {
-    
-  }
-  
-  
-  void unmarshalReturnedValues(cdrStream&);
-  void marshalReturnedValues(cdrStream&);
-  
-  
-  static const char* const _user_exns[];
-
-  EtudiantApp::NoteList_var result;
-};
-
-void _0RL_cd_e4b34d1afc78e95b_a0000000::marshalReturnedValues(cdrStream& _n)
-{
-  (const EtudiantApp::NoteList&) result >>= _n;
-
-}
-
-void _0RL_cd_e4b34d1afc78e95b_a0000000::unmarshalReturnedValues(cdrStream& _n)
-{
-  result = new EtudiantApp::NoteList;
-  (EtudiantApp::NoteList&)result <<= _n;
-
-}
-
-const char* const _0RL_cd_e4b34d1afc78e95b_a0000000::_user_exns[] = {
-  0
-};
-
-// Local call call-back function.
-static void
-_0RL_lcfn_e4b34d1afc78e95b_b0000000(omniCallDescriptor* cd, omniServant* svnt)
-{
-  _0RL_cd_e4b34d1afc78e95b_a0000000* tcd = (_0RL_cd_e4b34d1afc78e95b_a0000000*)cd;
-  EtudiantApp::_impl_NoteService* impl = (EtudiantApp::_impl_NoteService*) svnt->_ptrToInterface(EtudiantApp::NoteService::_PD_repoId);
-  tcd->result = impl->getAllNotes();
-
-
-}
-
-EtudiantApp::NoteList* EtudiantApp::_objref_NoteService::getAllNotes()
-{
-  _0RL_cd_e4b34d1afc78e95b_a0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_b0000000, "getAllNotes", 12);
-
-
-  _invoke(_call_desc);
-  return _call_desc.result._retn();
-
-
-}
-
-
-//
-// Code for EtudiantApp::NoteService::getNotesByEtu
-
-// Proxy call descriptor class. Mangled signature:
-//  _cEtudiantApp_mNoteList_i_cstring
 class _0RL_cd_e4b34d1afc78e95b_c0000000
   : public omniCallDescriptor
 {
@@ -789,32 +818,15 @@ public:
     
   }
   
-  void marshalArguments(cdrStream&);
-  void unmarshalArguments(cdrStream&);
-
+  
   void unmarshalReturnedValues(cdrStream&);
   void marshalReturnedValues(cdrStream&);
   
   
   static const char* const _user_exns[];
 
-  ::CORBA::String_var arg_0_;
-  const char* arg_0;
   EtudiantApp::NoteList_var result;
 };
-
-void _0RL_cd_e4b34d1afc78e95b_c0000000::marshalArguments(cdrStream& _n)
-{
-  _n.marshalString(arg_0,0);
-
-}
-
-void _0RL_cd_e4b34d1afc78e95b_c0000000::unmarshalArguments(cdrStream& _n)
-{
-  arg_0_ = _n.unmarshalString(0);
-  arg_0 = arg_0_.in();
-
-}
 
 void _0RL_cd_e4b34d1afc78e95b_c0000000::marshalReturnedValues(cdrStream& _n)
 {
@@ -839,15 +851,15 @@ _0RL_lcfn_e4b34d1afc78e95b_d0000000(omniCallDescriptor* cd, omniServant* svnt)
 {
   _0RL_cd_e4b34d1afc78e95b_c0000000* tcd = (_0RL_cd_e4b34d1afc78e95b_c0000000*)cd;
   EtudiantApp::_impl_NoteService* impl = (EtudiantApp::_impl_NoteService*) svnt->_ptrToInterface(EtudiantApp::NoteService::_PD_repoId);
-  tcd->result = impl->getNotesByEtu(tcd->arg_0);
+  tcd->result = impl->getAllNotes();
 
 
 }
 
-EtudiantApp::NoteList* EtudiantApp::_objref_NoteService::getNotesByEtu(const char* numEtu)
+EtudiantApp::NoteList* EtudiantApp::_objref_NoteService::getAllNotes()
 {
-  _0RL_cd_e4b34d1afc78e95b_c0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_d0000000, "getNotesByEtu", 14);
-  _call_desc.arg_0 = numEtu;
+  _0RL_cd_e4b34d1afc78e95b_c0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_d0000000, "getAllNotes", 12);
+
 
   _invoke(_call_desc);
   return _call_desc.result._retn();
@@ -857,10 +869,10 @@ EtudiantApp::NoteList* EtudiantApp::_objref_NoteService::getNotesByEtu(const cha
 
 
 //
-// Code for EtudiantApp::NoteService::getMoyenne
+// Code for EtudiantApp::NoteService::getNotesByEtu
 
 // Proxy call descriptor class. Mangled signature:
-//  _cdouble_i_cstring
+//  _cEtudiantApp_mNoteList_i_cstring
 class _0RL_cd_e4b34d1afc78e95b_e0000000
   : public omniCallDescriptor
 {
@@ -882,7 +894,7 @@ public:
 
   ::CORBA::String_var arg_0_;
   const char* arg_0;
-  ::CORBA::Double result;
+  EtudiantApp::NoteList_var result;
 };
 
 void _0RL_cd_e4b34d1afc78e95b_e0000000::marshalArguments(cdrStream& _n)
@@ -900,13 +912,14 @@ void _0RL_cd_e4b34d1afc78e95b_e0000000::unmarshalArguments(cdrStream& _n)
 
 void _0RL_cd_e4b34d1afc78e95b_e0000000::marshalReturnedValues(cdrStream& _n)
 {
-  result >>= _n;
+  (const EtudiantApp::NoteList&) result >>= _n;
 
 }
 
 void _0RL_cd_e4b34d1afc78e95b_e0000000::unmarshalReturnedValues(cdrStream& _n)
 {
-  (::CORBA::Double&)result <<= _n;
+  result = new EtudiantApp::NoteList;
+  (EtudiantApp::NoteList&)result <<= _n;
 
 }
 
@@ -920,6 +933,87 @@ _0RL_lcfn_e4b34d1afc78e95b_f0000000(omniCallDescriptor* cd, omniServant* svnt)
 {
   _0RL_cd_e4b34d1afc78e95b_e0000000* tcd = (_0RL_cd_e4b34d1afc78e95b_e0000000*)cd;
   EtudiantApp::_impl_NoteService* impl = (EtudiantApp::_impl_NoteService*) svnt->_ptrToInterface(EtudiantApp::NoteService::_PD_repoId);
+  tcd->result = impl->getNotesByEtu(tcd->arg_0);
+
+
+}
+
+EtudiantApp::NoteList* EtudiantApp::_objref_NoteService::getNotesByEtu(const char* numEtu)
+{
+  _0RL_cd_e4b34d1afc78e95b_e0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_f0000000, "getNotesByEtu", 14);
+  _call_desc.arg_0 = numEtu;
+
+  _invoke(_call_desc);
+  return _call_desc.result._retn();
+
+
+}
+
+
+//
+// Code for EtudiantApp::NoteService::getMoyenne
+
+// Proxy call descriptor class. Mangled signature:
+//  _cdouble_i_cstring
+class _0RL_cd_e4b34d1afc78e95b_01000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_e4b34d1afc78e95b_01000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  void marshalArguments(cdrStream&);
+  void unmarshalArguments(cdrStream&);
+
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  ::CORBA::String_var arg_0_;
+  const char* arg_0;
+  ::CORBA::Double result;
+};
+
+void _0RL_cd_e4b34d1afc78e95b_01000000::marshalArguments(cdrStream& _n)
+{
+  _n.marshalString(arg_0,0);
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_01000000::unmarshalArguments(cdrStream& _n)
+{
+  arg_0_ = _n.unmarshalString(0);
+  arg_0 = arg_0_.in();
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_01000000::marshalReturnedValues(cdrStream& _n)
+{
+  result >>= _n;
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_01000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  (::CORBA::Double&)result <<= _n;
+
+}
+
+const char* const _0RL_cd_e4b34d1afc78e95b_01000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_e4b34d1afc78e95b_11000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_e4b34d1afc78e95b_01000000* tcd = (_0RL_cd_e4b34d1afc78e95b_01000000*)cd;
+  EtudiantApp::_impl_NoteService* impl = (EtudiantApp::_impl_NoteService*) svnt->_ptrToInterface(EtudiantApp::NoteService::_PD_repoId);
   tcd->result = impl->getMoyenne(tcd->arg_0);
 
 
@@ -927,7 +1021,7 @@ _0RL_lcfn_e4b34d1afc78e95b_f0000000(omniCallDescriptor* cd, omniServant* svnt)
 
 ::CORBA::Double EtudiantApp::_objref_NoteService::getMoyenne(const char* numEtu)
 {
-  _0RL_cd_e4b34d1afc78e95b_e0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_f0000000, "getMoyenne", 11);
+  _0RL_cd_e4b34d1afc78e95b_01000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_11000000, "getMoyenne", 11);
   _call_desc.arg_0 = numEtu;
 
   _invoke(_call_desc);
@@ -967,7 +1061,7 @@ EtudiantApp::_impl_NoteService::_dispatch(omniCallHandle& _handle)
 
   if (omni::strMatch(op, "addNote")) {
 
-    _0RL_cd_e4b34d1afc78e95b_80000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_90000000, "addNote", 8, 1);
+    _0RL_cd_e4b34d1afc78e95b_a0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_b0000000, "addNote", 8, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;
@@ -975,7 +1069,7 @@ EtudiantApp::_impl_NoteService::_dispatch(omniCallHandle& _handle)
 
   if (omni::strMatch(op, "getAllNotes")) {
 
-    _0RL_cd_e4b34d1afc78e95b_a0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_b0000000, "getAllNotes", 12, 1);
+    _0RL_cd_e4b34d1afc78e95b_c0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_d0000000, "getAllNotes", 12, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;
@@ -983,7 +1077,7 @@ EtudiantApp::_impl_NoteService::_dispatch(omniCallHandle& _handle)
 
   if (omni::strMatch(op, "getNotesByEtu")) {
 
-    _0RL_cd_e4b34d1afc78e95b_c0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_d0000000, "getNotesByEtu", 14, 1);
+    _0RL_cd_e4b34d1afc78e95b_e0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_f0000000, "getNotesByEtu", 14, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;
@@ -991,7 +1085,7 @@ EtudiantApp::_impl_NoteService::_dispatch(omniCallHandle& _handle)
 
   if (omni::strMatch(op, "getMoyenne")) {
 
-    _0RL_cd_e4b34d1afc78e95b_e0000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_f0000000, "getMoyenne", 11, 1);
+    _0RL_cd_e4b34d1afc78e95b_01000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_11000000, "getMoyenne", 11, 1);
     
     _handle.upcall(this,_call_desc);
     return 1;

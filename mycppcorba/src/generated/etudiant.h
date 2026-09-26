@@ -395,6 +395,7 @@ _CORBA_MODULE_BEG
     EtudiantList* getAll();
     Etudiant* getByNumEtu(const char* numEtu);
     ::CORBA::Long addEtudiant(const ::EtudiantApp::Etudiant& etu);
+    EtudiantList* filtrer(const char* colonne, ::CORBA::Boolean isasc);
     ::CORBA::Long count();
 
     // Constructors
@@ -433,6 +434,7 @@ _CORBA_MODULE_BEG
     virtual EtudiantList* getAll() = 0;
     virtual Etudiant* getByNumEtu(const char* numEtu) = 0;
     virtual ::CORBA::Long addEtudiant(const ::EtudiantApp::Etudiant& etu) = 0;
+    virtual EtudiantList* filtrer(const char* colonne, ::CORBA::Boolean isasc) = 0;
     virtual ::CORBA::Long count() = 0;
     
   public:  // Really protected, workaround for xlC

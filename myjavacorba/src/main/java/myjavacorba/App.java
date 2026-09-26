@@ -1,5 +1,8 @@
 package myjavacorba;
 import EtudiantApp.*;
+
+import java.util.Scanner;
+
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.*;
 import org.omg.PortableServer.POA;
@@ -43,15 +46,23 @@ public class App {
             EtudiantService etudiantService = EtudiantServiceHelper.narrow(etuObj);
 
             if (etudiantService != null) {
-                Etudiant[] liste = etudiantService.getAll();
+                Scanner scanner = new Scanner(System.in);
+                while(true){
+                System.out.print("Entrez la colonne pour filtrer (id, numEtu, nom, prenom, email) : ");
+                String colonne = scanner.nextLine();
+
+                System.out.print("Entrez l'ordre (true pour ascendant, false pour descendant) : ");
+                boolean isasc = Boolean.parseBoolean(scanner.nextLine());
+
+                Etudiant[] liste = etudiantService.filtrer(colonne,isasc);
                 System.out.println("[Java] Liste des etudiants reçue depuis C++ (MySQL) :");
                 for (Etudiant e : liste) {
                     System.out.println("   - ID: " + e.id + " | Num: " + e.numEtu 
                                        + " | " + e.nom + " " + e.prenom + " (" + e.email + ")");
                 }
+                }
             }
 
-            //! Attendre les requêtes
             System.out.println("[Java] Serveur Java pret et en ecoute...");
             orb.run();
 

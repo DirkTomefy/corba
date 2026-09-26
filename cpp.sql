@@ -18,3 +18,10 @@ INSERT INTO etudiant (num_etu, nom, prenom, email) VALUES
 ('etu003948', 'Tomefy', 'Rakoto', 'tomefy@example.com'),
 ('etu003949', 'Dupont', 'Marie',   'marie@example.com'),
 ('etu003950', 'Martin', 'Paul',    'paul@example.com');
+
+CREATE TABLE IF NOT EXISTS historique (
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    action    VARCHAR(100) NOT NULL,
+    details   TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

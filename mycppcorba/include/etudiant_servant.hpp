@@ -8,6 +8,7 @@ public:
     EtudiantApp::Etudiant*     getByNumEtu(const char* numEtu);
     CORBA::Long                addEtudiant(const EtudiantApp::Etudiant& e);
     CORBA::Long                count();
+    EtudiantApp::EtudiantList* filtrer(const char* colonne,const bool isasc);
 };
 
 #endif

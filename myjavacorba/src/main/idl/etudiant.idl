@@ -22,6 +22,7 @@ module EtudiantApp {
         EtudiantList getAll();
         Etudiant     getByNumEtu(in string numEtu);
         long         addEtudiant(in Etudiant etu);
+        EtudiantList filtrer(in string colonne,in boolean isasc); 
         long         count();
     };
 
