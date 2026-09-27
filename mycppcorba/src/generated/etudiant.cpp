@@ -1118,6 +1118,42 @@ EtudiantApp::_impl_NoteService::_mostDerivedRepoId()
   return ::EtudiantApp::NoteService::_PD_repoId;
 }
 
+void
+EtudiantApp::HistoriqueCpp::operator>>= (cdrStream &_n) const
+{
+  id >>= _n;
+  _n.marshalString(action,0);
+  _n.marshalString(details,0);
+
+}
+
+void
+EtudiantApp::HistoriqueCpp::operator<<= (cdrStream &_n)
+{
+  (::CORBA::Long&)id <<= _n;
+  action = _n.unmarshalString(0);
+  details = _n.unmarshalString(0);
+
+}
+
+void
+EtudiantApp::HistoriqueJava::operator>>= (cdrStream &_n) const
+{
+  id >>= _n;
+  _n.marshalString(action,0);
+  _n.marshalString(details,0);
+
+}
+
+void
+EtudiantApp::HistoriqueJava::operator<<= (cdrStream &_n)
+{
+  (::CORBA::Long&)id <<= _n;
+  action = _n.unmarshalString(0);
+  details = _n.unmarshalString(0);
+
+}
+
 POA_EtudiantApp::EtudiantService::~EtudiantService() {}
 
 POA_EtudiantApp::NoteService::~NoteService() {}

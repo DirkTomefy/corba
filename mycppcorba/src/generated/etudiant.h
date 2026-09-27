@@ -568,6 +568,46 @@ _CORBA_MODULE_BEG
   };
 
 
+  struct HistoriqueCpp {
+    typedef _CORBA_ConstrType_Variable_Var<HistoriqueCpp> _var_type;
+
+    
+    ::CORBA::Long id;
+
+    ::CORBA::String_member action;
+
+    ::CORBA::String_member details;
+
+  
+
+    void operator>>= (cdrStream &) const;
+    void operator<<= (cdrStream &);
+  };
+
+  typedef HistoriqueCpp::_var_type HistoriqueCpp_var;
+
+  typedef _CORBA_ConstrType_Variable_OUT_arg< HistoriqueCpp,HistoriqueCpp_var > HistoriqueCpp_out;
+
+  struct HistoriqueJava {
+    typedef _CORBA_ConstrType_Variable_Var<HistoriqueJava> _var_type;
+
+    
+    ::CORBA::Long id;
+
+    ::CORBA::String_member action;
+
+    ::CORBA::String_member details;
+
+  
+
+    void operator>>= (cdrStream &) const;
+    void operator<<= (cdrStream &);
+  };
+
+  typedef HistoriqueJava::_var_type HistoriqueJava_var;
+
+  typedef _CORBA_ConstrType_Variable_OUT_arg< HistoriqueJava,HistoriqueJava_var > HistoriqueJava_out;
+
 _CORBA_MODULE_END
 
 

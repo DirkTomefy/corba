@@ -155,7 +155,7 @@
                 <configuration>
                     <compiler>jacorb</compiler>
                     <sourceDirectory>${project.basedir}/src/main/idl</sourceDirectory>
-                    <outputDirectory>${project.build.directory}/generated-sources/idl</outputDirectory>
+                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                     <sources>
                         <source>
                             <includes>

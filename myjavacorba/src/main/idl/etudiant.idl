@@ -33,4 +33,16 @@ module EtudiantApp {
         NoteList getNotesByEtu(in string numEtu);
         double   getMoyenne(in string numEtu);
     };
+
+    struct HistoriqueCpp{
+        long    id;
+        string  action; 
+        string  details;  
+    };
+
+    struct HistoriqueJava{
+        long    id;
+        string  action;
+        string  details;
+    };
 };
