@@ -578,6 +578,8 @@ _CORBA_MODULE_BEG
 
     ::CORBA::String_member details;
 
+    ::CORBA::LongLong created_at;
+
   
 
     void operator>>= (cdrStream &) const;
@@ -598,6 +600,8 @@ _CORBA_MODULE_BEG
 
     ::CORBA::String_member details;
 
+    ::CORBA::LongLong created_at;
+
   
 
     void operator>>= (cdrStream &) const;
@@ -607,6 +611,233 @@ _CORBA_MODULE_BEG
   typedef HistoriqueJava::_var_type HistoriqueJava_var;
 
   typedef _CORBA_ConstrType_Variable_OUT_arg< HistoriqueJava,HistoriqueJava_var > HistoriqueJava_out;
+
+  class HistoriqueCppList_var;
+
+  class HistoriqueCppList : public _CORBA_Unbounded_Sequence< HistoriqueCpp >  {
+  public:
+    typedef HistoriqueCppList_var _var_type;
+    inline HistoriqueCppList() {}
+    inline HistoriqueCppList(const HistoriqueCppList& _s)
+      : _CORBA_Unbounded_Sequence< HistoriqueCpp > (_s) {}
+
+    inline HistoriqueCppList(_CORBA_ULong _max)
+      : _CORBA_Unbounded_Sequence< HistoriqueCpp > (_max) {}
+    inline HistoriqueCppList(_CORBA_ULong _max, _CORBA_ULong _len, HistoriqueCpp* _val, _CORBA_Boolean _rel=0)
+      : _CORBA_Unbounded_Sequence< HistoriqueCpp > (_max, _len, _val, _rel) {}
+
+  
+
+    inline HistoriqueCppList& operator = (const HistoriqueCppList& _s) {
+      _CORBA_Unbounded_Sequence< HistoriqueCpp > ::operator=(_s);
+      return *this;
+    }
+  };
+
+  class HistoriqueCppList_out;
+
+  class HistoriqueCppList_var {
+  public:
+    inline HistoriqueCppList_var() : _pd_seq(0) {}
+    inline HistoriqueCppList_var(HistoriqueCppList* _s) : _pd_seq(_s) {}
+    inline HistoriqueCppList_var(const HistoriqueCppList_var& _s) {
+      if (_s._pd_seq)  _pd_seq = new HistoriqueCppList(*_s._pd_seq);
+      else             _pd_seq = 0;
+    }
+    inline ~HistoriqueCppList_var() { if (_pd_seq)  delete _pd_seq; }
+      
+    inline HistoriqueCppList_var& operator = (HistoriqueCppList* _s) {
+      if (_pd_seq)  delete _pd_seq;
+      _pd_seq = _s;
+      return *this;
+    }
+    inline HistoriqueCppList_var& operator = (const HistoriqueCppList_var& _s) {
+      if (&_s != this) {
+        if (_s._pd_seq) {
+          if (!_pd_seq)  _pd_seq = new HistoriqueCppList;
+          *_pd_seq = *_s._pd_seq;
+        }
+        else if (_pd_seq) {
+          delete _pd_seq;
+          _pd_seq = 0;
+        }
+      }
+      return *this;
+    }
+    inline HistoriqueCpp& operator [] (_CORBA_ULong _s) {
+      return (*_pd_seq)[_s];
+    }
+
+  
+
+    inline HistoriqueCppList* operator -> () { return _pd_seq; }
+    inline const HistoriqueCppList* operator -> () const { return _pd_seq; }
+#if defined(__GNUG__)
+    inline operator HistoriqueCppList& () const { return *_pd_seq; }
+#else
+    inline operator const HistoriqueCppList& () const { return *_pd_seq; }
+    inline operator HistoriqueCppList& () { return *_pd_seq; }
+#endif
+      
+    inline const HistoriqueCppList& in() const { return *_pd_seq; }
+    inline HistoriqueCppList&       inout()    { return *_pd_seq; }
+    inline HistoriqueCppList*&      out() {
+      if (_pd_seq) { delete _pd_seq; _pd_seq = 0; }
+      return _pd_seq;
+    }
+    inline HistoriqueCppList* _retn() { HistoriqueCppList* tmp = _pd_seq; _pd_seq = 0; return tmp; }
+      
+    friend class HistoriqueCppList_out;
+    
+  private:
+    HistoriqueCppList* _pd_seq;
+  };
+
+  class HistoriqueCppList_out {
+  public:
+    inline HistoriqueCppList_out(HistoriqueCppList*& _s) : _data(_s) { _data = 0; }
+    inline HistoriqueCppList_out(HistoriqueCppList_var& _s)
+      : _data(_s._pd_seq) { _s = (HistoriqueCppList*) 0; }
+    inline HistoriqueCppList_out(const HistoriqueCppList_out& _s) : _data(_s._data) {}
+    inline HistoriqueCppList_out& operator = (const HistoriqueCppList_out& _s) {
+      _data = _s._data;
+      return *this;
+    }
+    inline HistoriqueCppList_out& operator = (HistoriqueCppList* _s) {
+      _data = _s;
+      return *this;
+    }
+    inline operator HistoriqueCppList*&()  { return _data; }
+    inline HistoriqueCppList*& ptr()       { return _data; }
+    inline HistoriqueCppList* operator->() { return _data; }
+
+    inline HistoriqueCpp& operator [] (_CORBA_ULong _i) {
+      return (*_data)[_i];
+    }
+
+  
+
+    HistoriqueCppList*& _data;
+
+  private:
+    HistoriqueCppList_out();
+    HistoriqueCppList_out& operator=(const HistoriqueCppList_var&);
+  };
+
+#ifndef __EtudiantApp_mHistoriqueCppService__
+#define __EtudiantApp_mHistoriqueCppService__
+  class HistoriqueCppService;
+  class _objref_HistoriqueCppService;
+  class _impl_HistoriqueCppService;
+  
+  typedef _objref_HistoriqueCppService* HistoriqueCppService_ptr;
+  typedef HistoriqueCppService_ptr HistoriqueCppServiceRef;
+
+  class HistoriqueCppService_Helper {
+  public:
+    typedef HistoriqueCppService_ptr _ptr_type;
+
+    static _ptr_type _nil();
+    static _CORBA_Boolean is_nil(_ptr_type);
+    static void release(_ptr_type);
+    static void duplicate(_ptr_type);
+    static void marshalObjRef(_ptr_type, cdrStream&);
+    static _ptr_type unmarshalObjRef(cdrStream&);
+  };
+
+  typedef _CORBA_ObjRef_Var<_objref_HistoriqueCppService, HistoriqueCppService_Helper> HistoriqueCppService_var;
+  typedef _CORBA_ObjRef_OUT_arg<_objref_HistoriqueCppService,HistoriqueCppService_Helper > HistoriqueCppService_out;
+
+#endif
+
+  // interface HistoriqueCppService
+  class HistoriqueCppService {
+  public:
+    // Declarations for this interface type.
+    typedef HistoriqueCppService_ptr _ptr_type;
+    typedef HistoriqueCppService_var _var_type;
+
+    static _ptr_type _duplicate(_ptr_type);
+    static _ptr_type _narrow(::CORBA::Object_ptr);
+    static _ptr_type _unchecked_narrow(::CORBA::Object_ptr);
+    
+    static _ptr_type _nil();
+
+    static inline void _marshalObjRef(_ptr_type, cdrStream&);
+
+    static inline _ptr_type _unmarshalObjRef(cdrStream& s) {
+      omniObjRef* o = omniObjRef::_unMarshal(_PD_repoId,s);
+      if (o)
+        return (_ptr_type) o->_ptrToObjRef(_PD_repoId);
+      else
+        return _nil();
+    }
+
+    static inline _ptr_type _fromObjRef(omniObjRef* o) {
+      if (o)
+        return (_ptr_type) o->_ptrToObjRef(_PD_repoId);
+      else
+        return _nil();
+    }
+
+    static _core_attr const char* _PD_repoId;
+
+    // Other IDL defined within this scope.
+    
+  };
+
+  class _objref_HistoriqueCppService :
+    public virtual ::CORBA::Object,
+    public virtual omniObjRef
+  {
+  public:
+    // IDL operations
+    HistoriqueCppList* getAllHistorique();
+
+    // Constructors
+    inline _objref_HistoriqueCppService()  { _PR_setobj(0); }  // nil
+    _objref_HistoriqueCppService(omniIOR*, omniIdentity*);
+
+  protected:
+    virtual ~_objref_HistoriqueCppService();
+
+    
+  private:
+    virtual void* _ptrToObjRef(const char*);
+
+    _objref_HistoriqueCppService(const _objref_HistoriqueCppService&);
+    _objref_HistoriqueCppService& operator = (const _objref_HistoriqueCppService&);
+    // not implemented
+
+    friend class HistoriqueCppService;
+  };
+
+  class _pof_HistoriqueCppService : public _OMNI_NS(proxyObjectFactory) {
+  public:
+    inline _pof_HistoriqueCppService() : _OMNI_NS(proxyObjectFactory)(HistoriqueCppService::_PD_repoId) {}
+    virtual ~_pof_HistoriqueCppService();
+
+    virtual omniObjRef* newObjRef(omniIOR*,omniIdentity*);
+    virtual _CORBA_Boolean is_a(const char*) const;
+  };
+
+  class _impl_HistoriqueCppService :
+    public virtual omniServant
+  {
+  public:
+    virtual ~_impl_HistoriqueCppService();
+
+    virtual HistoriqueCppList* getAllHistorique() = 0;
+    
+  public:  // Really protected, workaround for xlC
+    virtual _CORBA_Boolean _dispatch(omniCallHandle&);
+
+  private:
+    virtual void* _ptrToInterface(const char*);
+    virtual const char* _mostDerivedRepoId();
+    
+  };
+
 
 _CORBA_MODULE_END
 
@@ -639,6 +870,18 @@ _CORBA_MODULE_BEG
     }
   };
 
+  class HistoriqueCppService :
+    public virtual EtudiantApp::_impl_HistoriqueCppService,
+    public virtual ::PortableServer::ServantBase
+  {
+  public:
+    virtual ~HistoriqueCppService();
+
+    inline ::EtudiantApp::HistoriqueCppService_ptr _this() {
+      return (::EtudiantApp::HistoriqueCppService_ptr) _do_this(::EtudiantApp::HistoriqueCppService::_PD_repoId);
+    }
+  };
+
 _CORBA_MODULE_END
 
 
@@ -664,6 +907,11 @@ EtudiantApp::EtudiantService::_marshalObjRef(::EtudiantApp::EtudiantService_ptr 
 
 inline void
 EtudiantApp::NoteService::_marshalObjRef(::EtudiantApp::NoteService_ptr obj, cdrStream& s) {
+  omniObjRef::_marshal(obj->_PR_getobj(),s);
+}
+
+inline void
+EtudiantApp::HistoriqueCppService::_marshalObjRef(::EtudiantApp::HistoriqueCppService_ptr obj, cdrStream& s) {
   omniObjRef::_marshal(obj->_PR_getobj(),s);
 }
 
