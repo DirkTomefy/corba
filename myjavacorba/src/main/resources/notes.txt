@@ -1,3 +1,6 @@
-1;etu003948;Dupont;Alice;alice.dupont@univ.fr
-2;etu001234;Martin;Bob;bob.martin@univ.fr
-3;etu005678;Bernard;Chloe;chloe.bernard@univ.fr
+etu003948;Architeture Logiciel;20
+etu003948;Anglais;18
+etu003948;Web Service;17.25
+etu003948;Multimédia;14.0
+etu003948;Gestion;17.5
+etu003948;Entreprise;16.75
