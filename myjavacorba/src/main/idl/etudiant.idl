@@ -37,12 +37,20 @@ module EtudiantApp {
     struct HistoriqueCpp{
         long    id;
         string  action; 
-        string  details;  
+        string  details;
+        long long created_at;  
     };
 
     struct HistoriqueJava{
         long    id;
         string  action;
         string  details;
+        long long created_at;
+    };
+
+    typedef sequence<HistoriqueCpp> HistoriqueCppList;
+
+    interface HistoriqueCppService{
+        HistoriqueCppList getAllHistorique();
     };
 };

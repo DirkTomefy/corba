@@ -1124,6 +1124,7 @@ EtudiantApp::HistoriqueCpp::operator>>= (cdrStream &_n) const
   id >>= _n;
   _n.marshalString(action,0);
   _n.marshalString(details,0);
+  created_at >>= _n;
 
 }
 
@@ -1133,6 +1134,7 @@ EtudiantApp::HistoriqueCpp::operator<<= (cdrStream &_n)
   (::CORBA::Long&)id <<= _n;
   action = _n.unmarshalString(0);
   details = _n.unmarshalString(0);
+  (::CORBA::LongLong&)created_at <<= _n;
 
 }
 
@@ -1142,6 +1144,7 @@ EtudiantApp::HistoriqueJava::operator>>= (cdrStream &_n) const
   id >>= _n;
   _n.marshalString(action,0);
   _n.marshalString(details,0);
+  created_at >>= _n;
 
 }
 
@@ -1151,10 +1154,245 @@ EtudiantApp::HistoriqueJava::operator<<= (cdrStream &_n)
   (::CORBA::Long&)id <<= _n;
   action = _n.unmarshalString(0);
   details = _n.unmarshalString(0);
+  (::CORBA::LongLong&)created_at <<= _n;
 
+}
+
+EtudiantApp::HistoriqueCppService_ptr EtudiantApp::HistoriqueCppService_Helper::_nil() {
+  return ::EtudiantApp::HistoriqueCppService::_nil();
+}
+
+::CORBA::Boolean EtudiantApp::HistoriqueCppService_Helper::is_nil(::EtudiantApp::HistoriqueCppService_ptr p) {
+  return ::CORBA::is_nil(p);
+
+}
+
+void EtudiantApp::HistoriqueCppService_Helper::release(::EtudiantApp::HistoriqueCppService_ptr p) {
+  ::CORBA::release(p);
+}
+
+void EtudiantApp::HistoriqueCppService_Helper::marshalObjRef(::EtudiantApp::HistoriqueCppService_ptr obj, cdrStream& s) {
+  ::EtudiantApp::HistoriqueCppService::_marshalObjRef(obj, s);
+}
+
+EtudiantApp::HistoriqueCppService_ptr EtudiantApp::HistoriqueCppService_Helper::unmarshalObjRef(cdrStream& s) {
+  return ::EtudiantApp::HistoriqueCppService::_unmarshalObjRef(s);
+}
+
+void EtudiantApp::HistoriqueCppService_Helper::duplicate(::EtudiantApp::HistoriqueCppService_ptr obj) {
+  if (obj && !obj->_NP_is_nil())  omni::duplicateObjRef(obj);
+}
+
+EtudiantApp::HistoriqueCppService_ptr
+EtudiantApp::HistoriqueCppService::_duplicate(::EtudiantApp::HistoriqueCppService_ptr obj)
+{
+  if (obj && !obj->_NP_is_nil())  omni::duplicateObjRef(obj);
+  return obj;
+}
+
+EtudiantApp::HistoriqueCppService_ptr
+EtudiantApp::HistoriqueCppService::_narrow(::CORBA::Object_ptr obj)
+{
+  if (!obj || obj->_NP_is_nil() || obj->_NP_is_pseudo()) return _nil();
+  _ptr_type e = (_ptr_type) obj->_PR_getobj()->_realNarrow(_PD_repoId);
+  return e ? e : _nil();
+}
+
+
+EtudiantApp::HistoriqueCppService_ptr
+EtudiantApp::HistoriqueCppService::_unchecked_narrow(::CORBA::Object_ptr obj)
+{
+  if (!obj || obj->_NP_is_nil() || obj->_NP_is_pseudo()) return _nil();
+  _ptr_type e = (_ptr_type) obj->_PR_getobj()->_uncheckedNarrow(_PD_repoId);
+  return e ? e : _nil();
+}
+
+EtudiantApp::HistoriqueCppService_ptr
+EtudiantApp::HistoriqueCppService::_nil()
+{
+#ifdef OMNI_UNLOADABLE_STUBS
+  static _objref_HistoriqueCppService _the_nil_obj;
+  return &_the_nil_obj;
+#else
+  static _objref_HistoriqueCppService* _the_nil_ptr = 0;
+  if (!_the_nil_ptr) {
+    omni::nilRefLock().lock();
+    if (!_the_nil_ptr) {
+      _the_nil_ptr = new _objref_HistoriqueCppService;
+      registerNilCorbaObject(_the_nil_ptr);
+    }
+    omni::nilRefLock().unlock();
+  }
+  return _the_nil_ptr;
+#endif
+}
+
+const char* EtudiantApp::HistoriqueCppService::_PD_repoId = "IDL:EtudiantApp/HistoriqueCppService:1.0";
+
+
+EtudiantApp::_objref_HistoriqueCppService::~_objref_HistoriqueCppService() {
+  
+}
+
+
+EtudiantApp::_objref_HistoriqueCppService::_objref_HistoriqueCppService(omniIOR* ior, omniIdentity* id) :
+   omniObjRef(::EtudiantApp::HistoriqueCppService::_PD_repoId, ior, id, 1)
+   
+   
+{
+  _PR_setobj(this);
+}
+
+void*
+EtudiantApp::_objref_HistoriqueCppService::_ptrToObjRef(const char* id)
+{
+  if (id == ::EtudiantApp::HistoriqueCppService::_PD_repoId)
+    return (::EtudiantApp::HistoriqueCppService_ptr) this;
+  
+  if (id == ::CORBA::Object::_PD_repoId)
+    return (::CORBA::Object_ptr) this;
+
+  if (omni::strMatch(id, ::EtudiantApp::HistoriqueCppService::_PD_repoId))
+    return (::EtudiantApp::HistoriqueCppService_ptr) this;
+  
+  if (omni::strMatch(id, ::CORBA::Object::_PD_repoId))
+    return (::CORBA::Object_ptr) this;
+
+  return 0;
+}
+
+
+//
+// Code for EtudiantApp::HistoriqueCppService::getAllHistorique
+
+// Proxy call descriptor class. Mangled signature:
+//  _cEtudiantApp_mHistoriqueCppList
+class _0RL_cd_e4b34d1afc78e95b_21000000
+  : public omniCallDescriptor
+{
+public:
+  inline _0RL_cd_e4b34d1afc78e95b_21000000(LocalCallFn lcfn, const char* op_, size_t oplen, _CORBA_Boolean upcall=0)
+    : omniCallDescriptor(lcfn, op_, oplen, 0, _user_exns, 0, upcall)
+  {
+    
+  }
+  
+  
+  void unmarshalReturnedValues(cdrStream&);
+  void marshalReturnedValues(cdrStream&);
+  
+  
+  static const char* const _user_exns[];
+
+  EtudiantApp::HistoriqueCppList_var result;
+};
+
+void _0RL_cd_e4b34d1afc78e95b_21000000::marshalReturnedValues(cdrStream& _n)
+{
+  (const EtudiantApp::HistoriqueCppList&) result >>= _n;
+
+}
+
+void _0RL_cd_e4b34d1afc78e95b_21000000::unmarshalReturnedValues(cdrStream& _n)
+{
+  result = new EtudiantApp::HistoriqueCppList;
+  (EtudiantApp::HistoriqueCppList&)result <<= _n;
+
+}
+
+const char* const _0RL_cd_e4b34d1afc78e95b_21000000::_user_exns[] = {
+  0
+};
+
+// Local call call-back function.
+static void
+_0RL_lcfn_e4b34d1afc78e95b_31000000(omniCallDescriptor* cd, omniServant* svnt)
+{
+  _0RL_cd_e4b34d1afc78e95b_21000000* tcd = (_0RL_cd_e4b34d1afc78e95b_21000000*)cd;
+  EtudiantApp::_impl_HistoriqueCppService* impl = (EtudiantApp::_impl_HistoriqueCppService*) svnt->_ptrToInterface(EtudiantApp::HistoriqueCppService::_PD_repoId);
+  tcd->result = impl->getAllHistorique();
+
+
+}
+
+EtudiantApp::HistoriqueCppList* EtudiantApp::_objref_HistoriqueCppService::getAllHistorique()
+{
+  _0RL_cd_e4b34d1afc78e95b_21000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_31000000, "getAllHistorique", 17);
+
+
+  _invoke(_call_desc);
+  return _call_desc.result._retn();
+
+
+}
+
+EtudiantApp::_pof_HistoriqueCppService::~_pof_HistoriqueCppService() {}
+
+
+omniObjRef*
+EtudiantApp::_pof_HistoriqueCppService::newObjRef(omniIOR* ior, omniIdentity* id)
+{
+  return new ::EtudiantApp::_objref_HistoriqueCppService(ior, id);
+}
+
+
+::CORBA::Boolean
+EtudiantApp::_pof_HistoriqueCppService::is_a(const char* id) const
+{
+  if (omni::ptrStrMatch(id, ::EtudiantApp::HistoriqueCppService::_PD_repoId))
+    return 1;
+  
+  return 0;
+}
+
+const EtudiantApp::_pof_HistoriqueCppService _the_pof_EtudiantApp_mHistoriqueCppService;
+
+EtudiantApp::_impl_HistoriqueCppService::~_impl_HistoriqueCppService() {}
+
+
+::CORBA::Boolean
+EtudiantApp::_impl_HistoriqueCppService::_dispatch(omniCallHandle& _handle)
+{
+  const char* op = _handle.operation_name();
+
+  if (omni::strMatch(op, "getAllHistorique")) {
+
+    _0RL_cd_e4b34d1afc78e95b_21000000 _call_desc(_0RL_lcfn_e4b34d1afc78e95b_31000000, "getAllHistorique", 17, 1);
+    
+    _handle.upcall(this,_call_desc);
+    return 1;
+  }
+
+
+  return 0;
+}
+
+void*
+EtudiantApp::_impl_HistoriqueCppService::_ptrToInterface(const char* id)
+{
+  if (id == ::EtudiantApp::HistoriqueCppService::_PD_repoId)
+    return (::EtudiantApp::_impl_HistoriqueCppService*) this;
+  
+  if (id == ::CORBA::Object::_PD_repoId)
+    return (void*) 1;
+
+  if (omni::strMatch(id, ::EtudiantApp::HistoriqueCppService::_PD_repoId))
+    return (::EtudiantApp::_impl_HistoriqueCppService*) this;
+  
+  if (omni::strMatch(id, ::CORBA::Object::_PD_repoId))
+    return (void*) 1;
+  return 0;
+}
+
+const char*
+EtudiantApp::_impl_HistoriqueCppService::_mostDerivedRepoId()
+{
+  return ::EtudiantApp::HistoriqueCppService::_PD_repoId;
 }
 
 POA_EtudiantApp::EtudiantService::~EtudiantService() {}
 
 POA_EtudiantApp::NoteService::~NoteService() {}
+
+POA_EtudiantApp::HistoriqueCppService::~HistoriqueCppService() {}
 

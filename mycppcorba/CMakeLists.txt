@@ -15,6 +15,7 @@ add_executable(mycppcorba
     src/dbutil.cpp
     src/etudiant_servant.cpp
     src/generated/etudiant.cpp
+    src/historiquecpp_servant.cpp
 )
 
 target_include_directories(mycppcorba PRIVATE
