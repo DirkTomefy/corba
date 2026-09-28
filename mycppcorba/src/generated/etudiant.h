@@ -839,6 +839,233 @@ _CORBA_MODULE_BEG
   };
 
 
+  class HistoriqueJavaList_var;
+
+  class HistoriqueJavaList : public _CORBA_Unbounded_Sequence< HistoriqueJava >  {
+  public:
+    typedef HistoriqueJavaList_var _var_type;
+    inline HistoriqueJavaList() {}
+    inline HistoriqueJavaList(const HistoriqueJavaList& _s)
+      : _CORBA_Unbounded_Sequence< HistoriqueJava > (_s) {}
+
+    inline HistoriqueJavaList(_CORBA_ULong _max)
+      : _CORBA_Unbounded_Sequence< HistoriqueJava > (_max) {}
+    inline HistoriqueJavaList(_CORBA_ULong _max, _CORBA_ULong _len, HistoriqueJava* _val, _CORBA_Boolean _rel=0)
+      : _CORBA_Unbounded_Sequence< HistoriqueJava > (_max, _len, _val, _rel) {}
+
+  
+
+    inline HistoriqueJavaList& operator = (const HistoriqueJavaList& _s) {
+      _CORBA_Unbounded_Sequence< HistoriqueJava > ::operator=(_s);
+      return *this;
+    }
+  };
+
+  class HistoriqueJavaList_out;
+
+  class HistoriqueJavaList_var {
+  public:
+    inline HistoriqueJavaList_var() : _pd_seq(0) {}
+    inline HistoriqueJavaList_var(HistoriqueJavaList* _s) : _pd_seq(_s) {}
+    inline HistoriqueJavaList_var(const HistoriqueJavaList_var& _s) {
+      if (_s._pd_seq)  _pd_seq = new HistoriqueJavaList(*_s._pd_seq);
+      else             _pd_seq = 0;
+    }
+    inline ~HistoriqueJavaList_var() { if (_pd_seq)  delete _pd_seq; }
+      
+    inline HistoriqueJavaList_var& operator = (HistoriqueJavaList* _s) {
+      if (_pd_seq)  delete _pd_seq;
+      _pd_seq = _s;
+      return *this;
+    }
+    inline HistoriqueJavaList_var& operator = (const HistoriqueJavaList_var& _s) {
+      if (&_s != this) {
+        if (_s._pd_seq) {
+          if (!_pd_seq)  _pd_seq = new HistoriqueJavaList;
+          *_pd_seq = *_s._pd_seq;
+        }
+        else if (_pd_seq) {
+          delete _pd_seq;
+          _pd_seq = 0;
+        }
+      }
+      return *this;
+    }
+    inline HistoriqueJava& operator [] (_CORBA_ULong _s) {
+      return (*_pd_seq)[_s];
+    }
+
+  
+
+    inline HistoriqueJavaList* operator -> () { return _pd_seq; }
+    inline const HistoriqueJavaList* operator -> () const { return _pd_seq; }
+#if defined(__GNUG__)
+    inline operator HistoriqueJavaList& () const { return *_pd_seq; }
+#else
+    inline operator const HistoriqueJavaList& () const { return *_pd_seq; }
+    inline operator HistoriqueJavaList& () { return *_pd_seq; }
+#endif
+      
+    inline const HistoriqueJavaList& in() const { return *_pd_seq; }
+    inline HistoriqueJavaList&       inout()    { return *_pd_seq; }
+    inline HistoriqueJavaList*&      out() {
+      if (_pd_seq) { delete _pd_seq; _pd_seq = 0; }
+      return _pd_seq;
+    }
+    inline HistoriqueJavaList* _retn() { HistoriqueJavaList* tmp = _pd_seq; _pd_seq = 0; return tmp; }
+      
+    friend class HistoriqueJavaList_out;
+    
+  private:
+    HistoriqueJavaList* _pd_seq;
+  };
+
+  class HistoriqueJavaList_out {
+  public:
+    inline HistoriqueJavaList_out(HistoriqueJavaList*& _s) : _data(_s) { _data = 0; }
+    inline HistoriqueJavaList_out(HistoriqueJavaList_var& _s)
+      : _data(_s._pd_seq) { _s = (HistoriqueJavaList*) 0; }
+    inline HistoriqueJavaList_out(const HistoriqueJavaList_out& _s) : _data(_s._data) {}
+    inline HistoriqueJavaList_out& operator = (const HistoriqueJavaList_out& _s) {
+      _data = _s._data;
+      return *this;
+    }
+    inline HistoriqueJavaList_out& operator = (HistoriqueJavaList* _s) {
+      _data = _s;
+      return *this;
+    }
+    inline operator HistoriqueJavaList*&()  { return _data; }
+    inline HistoriqueJavaList*& ptr()       { return _data; }
+    inline HistoriqueJavaList* operator->() { return _data; }
+
+    inline HistoriqueJava& operator [] (_CORBA_ULong _i) {
+      return (*_data)[_i];
+    }
+
+  
+
+    HistoriqueJavaList*& _data;
+
+  private:
+    HistoriqueJavaList_out();
+    HistoriqueJavaList_out& operator=(const HistoriqueJavaList_var&);
+  };
+
+#ifndef __EtudiantApp_mHistoriqueJavaService__
+#define __EtudiantApp_mHistoriqueJavaService__
+  class HistoriqueJavaService;
+  class _objref_HistoriqueJavaService;
+  class _impl_HistoriqueJavaService;
+  
+  typedef _objref_HistoriqueJavaService* HistoriqueJavaService_ptr;
+  typedef HistoriqueJavaService_ptr HistoriqueJavaServiceRef;
+
+  class HistoriqueJavaService_Helper {
+  public:
+    typedef HistoriqueJavaService_ptr _ptr_type;
+
+    static _ptr_type _nil();
+    static _CORBA_Boolean is_nil(_ptr_type);
+    static void release(_ptr_type);
+    static void duplicate(_ptr_type);
+    static void marshalObjRef(_ptr_type, cdrStream&);
+    static _ptr_type unmarshalObjRef(cdrStream&);
+  };
+
+  typedef _CORBA_ObjRef_Var<_objref_HistoriqueJavaService, HistoriqueJavaService_Helper> HistoriqueJavaService_var;
+  typedef _CORBA_ObjRef_OUT_arg<_objref_HistoriqueJavaService,HistoriqueJavaService_Helper > HistoriqueJavaService_out;
+
+#endif
+
+  // interface HistoriqueJavaService
+  class HistoriqueJavaService {
+  public:
+    // Declarations for this interface type.
+    typedef HistoriqueJavaService_ptr _ptr_type;
+    typedef HistoriqueJavaService_var _var_type;
+
+    static _ptr_type _duplicate(_ptr_type);
+    static _ptr_type _narrow(::CORBA::Object_ptr);
+    static _ptr_type _unchecked_narrow(::CORBA::Object_ptr);
+    
+    static _ptr_type _nil();
+
+    static inline void _marshalObjRef(_ptr_type, cdrStream&);
+
+    static inline _ptr_type _unmarshalObjRef(cdrStream& s) {
+      omniObjRef* o = omniObjRef::_unMarshal(_PD_repoId,s);
+      if (o)
+        return (_ptr_type) o->_ptrToObjRef(_PD_repoId);
+      else
+        return _nil();
+    }
+
+    static inline _ptr_type _fromObjRef(omniObjRef* o) {
+      if (o)
+        return (_ptr_type) o->_ptrToObjRef(_PD_repoId);
+      else
+        return _nil();
+    }
+
+    static _core_attr const char* _PD_repoId;
+
+    // Other IDL defined within this scope.
+    
+  };
+
+  class _objref_HistoriqueJavaService :
+    public virtual ::CORBA::Object,
+    public virtual omniObjRef
+  {
+  public:
+    // IDL operations
+    HistoriqueJavaList* getAllHistorique();
+
+    // Constructors
+    inline _objref_HistoriqueJavaService()  { _PR_setobj(0); }  // nil
+    _objref_HistoriqueJavaService(omniIOR*, omniIdentity*);
+
+  protected:
+    virtual ~_objref_HistoriqueJavaService();
+
+    
+  private:
+    virtual void* _ptrToObjRef(const char*);
+
+    _objref_HistoriqueJavaService(const _objref_HistoriqueJavaService&);
+    _objref_HistoriqueJavaService& operator = (const _objref_HistoriqueJavaService&);
+    // not implemented
+
+    friend class HistoriqueJavaService;
+  };
+
+  class _pof_HistoriqueJavaService : public _OMNI_NS(proxyObjectFactory) {
+  public:
+    inline _pof_HistoriqueJavaService() : _OMNI_NS(proxyObjectFactory)(HistoriqueJavaService::_PD_repoId) {}
+    virtual ~_pof_HistoriqueJavaService();
+
+    virtual omniObjRef* newObjRef(omniIOR*,omniIdentity*);
+    virtual _CORBA_Boolean is_a(const char*) const;
+  };
+
+  class _impl_HistoriqueJavaService :
+    public virtual omniServant
+  {
+  public:
+    virtual ~_impl_HistoriqueJavaService();
+
+    virtual HistoriqueJavaList* getAllHistorique() = 0;
+    
+  public:  // Really protected, workaround for xlC
+    virtual _CORBA_Boolean _dispatch(omniCallHandle&);
+
+  private:
+    virtual void* _ptrToInterface(const char*);
+    virtual const char* _mostDerivedRepoId();
+    
+  };
+
+
 _CORBA_MODULE_END
 
 
@@ -882,6 +1109,18 @@ _CORBA_MODULE_BEG
     }
   };
 
+  class HistoriqueJavaService :
+    public virtual EtudiantApp::_impl_HistoriqueJavaService,
+    public virtual ::PortableServer::ServantBase
+  {
+  public:
+    virtual ~HistoriqueJavaService();
+
+    inline ::EtudiantApp::HistoriqueJavaService_ptr _this() {
+      return (::EtudiantApp::HistoriqueJavaService_ptr) _do_this(::EtudiantApp::HistoriqueJavaService::_PD_repoId);
+    }
+  };
+
 _CORBA_MODULE_END
 
 
@@ -912,6 +1151,11 @@ EtudiantApp::NoteService::_marshalObjRef(::EtudiantApp::NoteService_ptr obj, cdr
 
 inline void
 EtudiantApp::HistoriqueCppService::_marshalObjRef(::EtudiantApp::HistoriqueCppService_ptr obj, cdrStream& s) {
+  omniObjRef::_marshal(obj->_PR_getobj(),s);
+}
+
+inline void
+EtudiantApp::HistoriqueJavaService::_marshalObjRef(::EtudiantApp::HistoriqueJavaService_ptr obj, cdrStream& s) {
   omniObjRef::_marshal(obj->_PR_getobj(),s);
 }
 

@@ -49,12 +49,24 @@ public class NoteServantImpl extends NoteServicePOA {
 
     @Override
     public void addNote(Note n) {
+        HistoriqueJavaServantImpl.historize(
+            "ADD_NOTE",
+            "numEtu=" + n.numEtu
+                + ", matiere=" + n.matiere
+                + ", valeur=" + n.valeur
+        );
+
         notes.add(n);
         System.out.println("[RECU] " + n.numEtu + " | " + n.matiere + " | " + n.valeur);
     }
 
     @Override
     public Note[] getAllNotes() {
+        HistoriqueJavaServantImpl.historize(
+            "GET_ALL_NOTES",
+            "Nombre de notes retournees=" + notes.size()
+        );
+
         return notes.toArray(new Note[0]);
     }
 
@@ -66,6 +78,12 @@ public class NoteServantImpl extends NoteServicePOA {
                 resultat.add(n);
             }
         }
+
+        HistoriqueJavaServantImpl.historize(
+            "GET_NOTES_BY_ETU",
+            "numEtu=" + numEtu + ", resultats=" + resultat.size()
+        );
+
         return resultat.toArray(new Note[0]);
     }
 
@@ -79,6 +97,15 @@ public class NoteServantImpl extends NoteServicePOA {
                 compte++;
             }
         }
-        return compte == 0 ? 0.0 : somme / compte;
+        double moyenne = compte == 0 ? 0.0 : somme / compte;
+
+        HistoriqueJavaServantImpl.historize(
+            "GET_MOYENNE",
+            "numEtu=" + numEtu
+                + ", matiere_count=" + compte
+                + ", moyenne=" + moyenne
+        );
+
+        return moyenne;
     }
 }
