@@ -13,7 +13,7 @@ pkg_check_modules(OMNIORB REQUIRED IMPORTED_TARGET
 add_executable(mycppcorba
     src/main.cpp
     src/dbutil.cpp
-    src/etudiant_servant.cpp
+    src/note_servant.cpp
     src/generated/etudiant.cpp
     src/historiquecpp_servant.cpp
 )

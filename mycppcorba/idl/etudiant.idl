@@ -17,7 +17,6 @@ module EtudiantApp {
     typedef sequence<Etudiant> EtudiantList;
     typedef sequence<Note>     NoteList;
 
-    // C++ implemente cette interface (serveur)
     interface EtudiantService {
         EtudiantList getAll();
         Etudiant     getByNumEtu(in string numEtu);
@@ -26,7 +25,6 @@ module EtudiantApp {
         long         count();
     };
 
-    // Java implemente cette interface (serveur)
     interface NoteService {
         void     addNote(in Note n);
         NoteList getAllNotes();
