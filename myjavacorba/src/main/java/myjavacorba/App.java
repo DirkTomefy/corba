@@ -8,23 +8,60 @@ import org.omg.CORBA.ORB;
 import org.omg.CosNaming.*;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
-import myjavacorba.server.NoteServantImpl;
+import myjavacorba.server.EtudiantServantImpl;
 import myjavacorba.server.HistoriqueJavaServantImpl;
 
 public class App {
 
     //! Questions posées côté Java aux services C++
-    public static void askHistoriqueQuestions(HistoriqueCppService historiqueService, Scanner scanner) {
+
+    public static void askNoteQuestions(NoteService noteService, Scanner scanner) {
         while (true) {
-            System.out.print("Voulez-vous afficher l'historique des actions (C++) ? (oui/non) : ");
+            System.out.print("Voulez-vous consulter les notes (C++) ? (oui/non) : ");
+            String reponse = scanner.nextLine();
+
+            if (reponse.equalsIgnoreCase("non")) {
+                System.out.println("Fin de la consultation des notes.");
+                break;
+            }
+            if (!reponse.equalsIgnoreCase("oui")) {
+                System.out.println("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
+                continue;
+            }
+
+            System.out.print("Entrez le numéro étudiant : ");
+            String numEtu = scanner.nextLine();
+
+            try {
+                Note[] notes = noteService.getNotesByEtu(numEtu);
+                System.out.println("[Java] Notes reçues depuis C++ (MySQL) :");
+                for (Note n : notes) {
+                    System.out.println("   - Matiere: " + n.matiere
+                            + " | Valeur: " + n.valeur);
+                }
+
+                double moyenne = noteService.getMoyenne(numEtu);
+                System.out.println("[Java] Moyenne pour " + numEtu
+                        + " : " + moyenne + "/20");
+            } catch (Exception ex) {
+                System.err.println("[Java] Erreur getNotesByEtu/getMoyenne : "
+                        + ex.getMessage());
+            }
+        }
+    }
+
+    public static void askHistoriqueCppQuestions(HistoriqueCppService historiqueService, Scanner scanner) {
+        while (true) {
+            System.out.print("Voulez-vous afficher l'historique C++ des actions ? (oui/non) : ");
             String reponse = scanner.nextLine();
 
             if (reponse.equalsIgnoreCase("oui")) {
                 HistoriqueCpp[] liste = historiqueService.getAllHistorique();
-                System.out.println("[Java] Liste de l'historique reçue depuis C++ (MySQL) :");
+                System.out.println("[Java] Liste de l'historique C++ (MySQL) :");
                 for (HistoriqueCpp h : liste) {
                     System.out.println("   - ID: " + h.id + " | Action: " + h.action
-                            + " | Details: " + h.details + " | Created At: " + h.created_at);
+                            + " | Details: " + h.details
+                            + " | Created At: " + h.created_at);
                 }
             } else if (reponse.equalsIgnoreCase("non")) {
                 System.out.println("Fin de l'affichage de l'historique C++.");
@@ -35,51 +72,45 @@ public class App {
         }
     }
 
-    public static void askFilterQuestions(EtudiantService etudiantService, Scanner scanner) {
-        while (true) {
-            System.out.print("Voulez-vous filtrer les étudiants ? (oui/non) : ");
-            String reponse = scanner.nextLine();
-            if (reponse.equalsIgnoreCase("non")) {
-                System.out.println("Fin de l'affichage des étudiants.");
-                break;
-            } else if (!reponse.equalsIgnoreCase("oui")) {
-                System.out.println("Réponse invalide. Veuillez répondre par 'oui' ou 'non'.");
-                continue;
-            }
-            System.out.print("Entrez la colonne pour filtrer (id, numEtu, nom, prenom, email) : ");
-            String colonne = scanner.nextLine();
+    //! Menu Java : appelle NoteService (C++) et HistoriqueCppService (C++)
 
-            System.out.print("Entrez l'ordre (true pour ascendant, false pour descendant) : ");
-            boolean isasc = Boolean.parseBoolean(scanner.nextLine());
-
-            Etudiant[] liste = etudiantService.filtrer(colonne, isasc);
-            System.out.println("[Java] Liste des etudiants reçue depuis C++ (MySQL) :");
-            for (Etudiant e : liste) {
-                System.out.println("   - ID: " + e.id + " | Num: " + e.numEtu
-                        + " | " + e.nom + " " + e.prenom + " (" + e.email + ")");
-            }
-        }
-    }
-
-    //! Questions posées côté Java aux services C++
     public static void askQuestions(Scanner scanner, NamingContextExt ncRef) {
         try {
-            //! Recherche du service C++ "EtudiantService"
-            org.omg.CORBA.Object etuObj = ncRef.resolve_str("EtudiantService");
-            EtudiantService etudiantService = EtudiantServiceHelper.narrow(etuObj);
+            //! Recherche des services C++
+            org.omg.CORBA.Object noteObj = ncRef.resolve_str("NoteService");
+            NoteService noteService = NoteServiceHelper.narrow(noteObj);
 
-            //! Recherche du service C++ "HistoriqueCppService"
             org.omg.CORBA.Object histoObj = ncRef.resolve_str("HistoriqueCppService");
             HistoriqueCppService historiqueService = HistoriqueCppServiceHelper.narrow(histoObj);
 
-            if (etudiantService != null && historiqueService != null) {
-                askFilterQuestions(etudiantService, scanner);
-                askHistoriqueQuestions(historiqueService, scanner);
-            } else {
+            if (noteService == null || historiqueService == null) {
                 System.out.println("[Java] Impossible de se connecter aux services C++.");
+                return;
+            }
+
+            while (true) {
+                System.out.println("\n================= MENU =================");
+                System.out.println("1. Consulter les notes (service C++ / MySQL)");
+                System.out.println("2. Afficher l'historique C++ (MySQL)");
+                System.out.println("3. Quitter");
+                System.out.print("Votre choix : ");
+
+                String choix = scanner.nextLine();
+
+                if (choix.equals("1")) {
+                    askNoteQuestions(noteService, scanner);
+                } else if (choix.equals("2")) {
+                    askHistoriqueCppQuestions(historiqueService, scanner);
+                } else if (choix.equals("3") || choix.equals("q") || choix.equals("quit")) {
+                    System.out.println("Fin du menu.");
+                    break;
+                } else {
+                    System.out.println("Choix invalide.");
+                }
             }
         } catch (Exception e) {
-            System.err.println("[Java] Erreur lors de la communication avec les services C++ : " + e.getMessage());
+            System.err.println("[Java] Erreur lors de la communication avec les services C++ : "
+                    + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -97,15 +128,15 @@ public class App {
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
-            //! Instancier et enregistrer NoteService
-            NoteServantImpl noteServant = new NoteServantImpl();
-            org.omg.CORBA.Object refNote = rootpoa.servant_to_reference(noteServant);
-            NoteService hrefNote = NoteServiceHelper.narrow(refNote);
-            NameComponent pathNote[] = ncRef.to_name("NoteService");
-            ncRef.rebind(pathNote, hrefNote);
-            System.out.println("[Java] NoteService enregistre dans le NameService.");
+            //! Instancier et enregistrer EtudiantService (Java)
+            EtudiantServantImpl etuServant = new EtudiantServantImpl();
+            org.omg.CORBA.Object refEtu = rootpoa.servant_to_reference(etuServant);
+            EtudiantService hrefEtu = EtudiantServiceHelper.narrow(refEtu);
+            NameComponent pathEtu[] = ncRef.to_name("EtudiantService");
+            ncRef.rebind(pathEtu, hrefEtu);
+            System.out.println("[Java] EtudiantService enregistre dans le NameService.");
 
-            //! Instancier et enregistrer HistoriqueJavaService
+            //! Instancier et enregistrer HistoriqueJavaService (Java)
             HistoriqueJavaServantImpl histoServant = new HistoriqueJavaServantImpl();
             org.omg.CORBA.Object refHisto = rootpoa.servant_to_reference(histoServant);
             HistoriqueJavaService hrefHisto = HistoriqueJavaServiceHelper.narrow(refHisto);
