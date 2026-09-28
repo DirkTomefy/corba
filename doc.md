@@ -663,3 +663,61 @@ idlj -fall -td src/main/java idl/etudiant.idl
 ---
 
 **Fin du guide.** 🎯
+
+# filtre en java :
+```java
+ @Override
+    public Etudiant[] filtrer(String colonne, boolean isasc) {
+        List<Etudiant> copie = new ArrayList<>(etudiants);
+
+        Comparator<Etudiant> cmp;
+        switch (colonne) {
+            case "id":     cmp = Comparator.comparingInt(e -> e.id); break;
+            case "numEtu": cmp = Comparator.comparing(e -> e.numEtu); break;
+            case "nom":    cmp = Comparator.comparing(e -> e.nom); break;
+            case "prenom": cmp = Comparator.comparing(e -> e.prenom); break;
+            case "email":  cmp = Comparator.comparing(e -> e.email); break;
+            default:       cmp = Comparator.comparingInt(e -> e.id);
+        }
+        if (!isasc) cmp = cmp.reversed();
+
+        copie.sort(cmp);
+
+        HistoriqueJavaServantImpl.historize(
+            "FILTRER_ETUDIANTS",
+            "colonne=" + colonne + ", asc=" + isasc
+                + ", resultats=" + copie.size()
+        );
+
+        return copie.toArray(new Etudiant[0]);
+    }
+```
+# filtre en cpp :
+```cpp
+EtudiantApp::EtudiantList* EtudiantServant::filtrer(const char* colonne,const bool isasc) {
+     EtudiantApp::EtudiantList* list = new EtudiantApp::EtudiantList();
+    DbConfig cfg;
+    MYSQL* conn = connectToDatabase(cfg);
+    historize(conn, "filtrer", "Filtrer les étudiants");
+    if (!conn) { list->length(0); return list; }
+    std::string query ="SELECT id, num_etu, nom, prenom, email FROM etudiant ORDER BY " + escape(conn, colonne) + " " + (isasc ? "ASC" : "DESC");
+    if (mysql_query(conn,query.c_str()))  {
+        mysql_close(conn);
+        list->length(0);
+        return list;
+    }
+
+    MYSQL_RES* res = mysql_store_result(conn);
+    MYSQL_ROW row;
+    while (res && (row = mysql_fetch_row(res))) {
+        EtudiantApp::Etudiant e = convertsqlRowToEtudiant(row);
+        CORBA::ULong idx = list->length();
+        list->length(idx + 1);
+        (*list)[idx] = e;
+    }
+
+    if (res) mysql_free_result(res);
+    mysql_close(conn);
+    return list;
+}
+```
