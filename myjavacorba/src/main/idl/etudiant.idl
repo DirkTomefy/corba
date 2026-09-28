@@ -53,4 +53,10 @@ module EtudiantApp {
     interface HistoriqueCppService{
         HistoriqueCppList getAllHistorique();
     };
+
+    typedef  sequence<HistoriqueJava> HistoriqueJavaList;
+
+     interface HistoriqueJavaService{
+        HistoriqueJavaList getAllHistorique();
+    };
 };
