@@ -5,7 +5,7 @@
 #include <omniORB4/CORBA.h>
 #include <omniORB4/Naming.hh>
 
-#include "etudiant_servant.hpp"
+#include "note_servant.hpp"
 #include "historiquecpp_servant.hpp"
 
 
@@ -43,12 +43,54 @@ CORBA::Object_var resolveService(
 }
 
 
-//! Helpers de saisie (style Java Scanner)
+//! Helpers de saisie
 
 std::string readLine() {
     std::string line;
     std::getline(std::cin, line);
     return line;
+}
+
+bool readBoolean() {
+    std::string s = readLine();
+    return (s == "true" || s == "1" || s == "oui" || s == "OUI" || s == "Oui");
+}
+
+
+//! Question : filtrer les étudiants (service Java)
+
+void askFilterQuestions(EtudiantApp::EtudiantService_ptr etudiantService) {
+    while (true) {
+        std::cout << "Voulez-vous filtrer les étudiants ? (oui/non) : ";
+        std::string reponse = readLine();
+
+        if (reponse == "non" || reponse == "NON" || reponse == "Non") {
+            std::cout << "Fin de l'affichage des étudiants." << std::endl;
+            break;
+        }
+        if (reponse != "oui" && reponse != "OUI" && reponse != "Oui") {
+            std::cout << "Réponse invalide. Veuillez répondre par 'oui' ou 'non'." << std::endl;
+            continue;
+        }
+
+        std::cout << "Entrez la colonne pour filtrer (id, numEtu, nom, prenom, email) : ";
+        std::string colonne = readLine();
+
+        std::cout << "Entrez l'ordre (true pour ascendant, false pour descendant) : ";
+        bool isasc = readBoolean();
+
+        EtudiantApp::EtudiantList_var liste =
+            etudiantService->filtrer(colonne.c_str(), isasc);
+
+        std::cout << "[C++] Liste des étudiants reçue depuis Java (etudiants.txt) :" << std::endl;
+        for (CORBA::ULong i = 0; i < liste->length(); ++i) {
+            const EtudiantApp::Etudiant& e = liste[i];
+            std::cout << "   - ID: " << e.id
+                      << " | Num: " << e.numEtu
+                      << " | " << e.nom << " " << e.prenom
+                      << " (" << e.email << ")" << std::endl;
+        }
+    }
 }
 
 
@@ -84,88 +126,21 @@ void askHistoriqueJavaQuestions(EtudiantApp::HistoriqueJavaService_ptr historiqu
 }
 
 
-//! Question : consulter les notes (service Java)
-
-void askNoteQuestions(EtudiantApp::NoteService_ptr noteService) {
-    while (true) {
-        std::cout << "\n--- Menu Notes (Java) ---" << std::endl;
-        std::cout << "1. Afficher toutes les notes" << std::endl;
-        std::cout << "2. Afficher les notes d'un étudiant" << std::endl;
-        std::cout << "3. Calculer la moyenne d'un étudiant" << std::endl;
-        std::cout << "4. Retour" << std::endl;
-        std::cout << "Votre choix : ";
-
-        std::string choix = readLine();
-
-        if (choix == "4" || choix == "q" || choix == "quit") {
-            std::cout << "Fin du menu Notes." << std::endl;
-            break;
-        }
-
-        if (choix == "1") {
-            EtudiantApp::NoteList_var liste = noteService->getAllNotes();
-            std::cout << "[C++] Toutes les notes reçues depuis Java :" << std::endl;
-            for (CORBA::ULong i = 0; i < liste->length(); ++i) {
-                const EtudiantApp::Note& n = liste[i];
-                std::cout << "   - NumEtu: " << n.numEtu
-                          << " | Matiere: " << n.matiere
-                          << " | Valeur: " << n.valeur
-                          << std::endl;
-            }
-        }
-        else if (choix == "2") {
-            std::cout << "Entrez le numéro étudiant : ";
-            std::string numEtu = readLine();
-
-            EtudiantApp::NoteList_var liste =
-                noteService->getNotesByEtu(numEtu.c_str());
-
-            std::cout << "[C++] Notes de l'étudiant " << numEtu << " :" << std::endl;
-            for (CORBA::ULong i = 0; i < liste->length(); ++i) {
-                const EtudiantApp::Note& n = liste[i];
-                std::cout << "   - Matiere: " << n.matiere
-                          << " | Valeur: " << n.valeur
-                          << std::endl;
-            }
-        }
-        else if (choix == "3") {
-            std::cout << "Entrez le numéro étudiant : ";
-            std::string numEtu = readLine();
-
-            try {
-                double moyenne = noteService->getMoyenne(numEtu.c_str());
-                std::cout << "[C++] Moyenne de l'étudiant " << numEtu
-                          << " : " << moyenne << "/20" << std::endl;
-            }
-            catch (const CORBA::Exception& ex) {
-                std::cerr << "[C++] Erreur lors de l'appel à getMoyenne : "
-                          << ex._name() << std::endl;
-            }
-        }
-        else {
-            std::cout << "Choix invalide." << std::endl;
-        }
-    }
-}
-
-
 //! Menu principal
 
-void askQuestions(
-    CosNaming::NamingContext_ptr namingContext
-) {
+void askQuestions(CosNaming::NamingContext_ptr namingContext) {
     try {
         //! Résolution des services Java
+        CORBA::Object_var etuObj       = resolveService(namingContext, "EtudiantService");
         CORBA::Object_var histoJavaObj = resolveService(namingContext, "HistoriqueJavaService");
-        CORBA::Object_var noteObj      = resolveService(namingContext, "NoteService");
 
+        EtudiantApp::EtudiantService_var      etudiantService      =
+            EtudiantApp::EtudiantService::_narrow(etuObj);
         EtudiantApp::HistoriqueJavaService_var historiqueJavaService =
             EtudiantApp::HistoriqueJavaService::_narrow(histoJavaObj);
-        EtudiantApp::NoteService_var          noteService          =
-            EtudiantApp::NoteService::_narrow(noteObj);
 
-        if (CORBA::is_nil(historiqueJavaService) ||
-            CORBA::is_nil(noteService)) {
+        if (CORBA::is_nil(etudiantService) ||
+            CORBA::is_nil(historiqueJavaService)) {
             std::cerr << "[C++] Impossible de se connecter aux services Java." << std::endl;
             return;
         }
@@ -173,18 +148,18 @@ void askQuestions(
         //! Menu interactif
         while (true) {
             std::cout << "\n================= MENU =================" << std::endl;
-            std::cout << "1. Afficher l'historique Java (historique.txt)" << std::endl;
-            std::cout << "2. Consulter les notes (service Java)" << std::endl;
+            std::cout << "1. Filtrer les étudiants (service Java)" << std::endl;
+            std::cout << "2. Afficher l'historique Java (historique.txt)" << std::endl;
             std::cout << "3. Quitter" << std::endl;
             std::cout << "Votre choix : ";
 
             std::string choix = readLine();
 
             if (choix == "1") {
-                askHistoriqueJavaQuestions(historiqueJavaService);
+                askFilterQuestions(etudiantService);
             }
             else if (choix == "2") {
-                askNoteQuestions(noteService);
+                askHistoriqueJavaQuestions(historiqueJavaService);
             }
             else if (choix == "3" || choix == "q" || choix == "quit") {
                 std::cout << "Fin du menu." << std::endl;
@@ -217,12 +192,12 @@ int main(int argc, char* argv[]) {
         PortableServer::POAManager_var poaManager = poa->the_POAManager();
         poaManager->activate();
 
-        //! Création des servants C++
-        EtudiantServant*       etudiantServant   = new EtudiantServant();
+        //! Création des servants C++ (Note + HistoriqueCpp)
+        NoteServant*           noteServant       = new NoteServant();
         HistoriqueCppServant*  historiqueServant = new HistoriqueCppServant();
 
         //! Création des références CORBA
-        EtudiantApp::EtudiantService_var      etudiantRef   = etudiantServant->_this();
+        EtudiantApp::NoteService_var          noteRef       = noteServant->_this();
         EtudiantApp::HistoriqueCppService_var historiqueRef = historiqueServant->_this();
 
         //! Résolution du NameService
@@ -232,8 +207,8 @@ int main(int argc, char* argv[]) {
             CosNaming::NamingContext::_narrow(nsObj);
 
         //! Enregistrement des services C++
-        registerService(namingContext, "EtudiantService",      etudiantRef);
-        registerService(namingContext, "HistoriqueCppService", historiqueRef);
+        registerService(namingContext, "NoteService",          noteRef);
+        registerService(namingContext, "HistoriqueCppService",  historiqueRef);
 
         //! Pause : on attend que le serveur Java soit lancé
         std::cout << "\n====================================================" << std::endl;
